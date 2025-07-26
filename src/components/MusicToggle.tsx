@@ -3,28 +3,41 @@ import { Button } from '@/components/ui/button';
 import { Music, VolumeX } from 'lucide-react';
 
 export const MusicToggle = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Start playing by default
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // You can replace this with an actual romantic instrumental track
-  const musicUrl = "https://www.soundjay.com/misc/sounds/magic-chime-02.wav";
+  const musicUrl = '/audio/bm.mp3'; // Ensure this is inside /public/audio
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.3;
+    const audio = audioRef.current;
+    if (audio) {
+      audio.loop = true;
+      audio.volume = 0.3;
+
+      // Wait for metadata to be loaded to set currentTime
+      const playAudio = () => {
+        audio.currentTime = 5; // Start from 5 seconds
+        audio.play().catch(console.error);
+      };
+
+      audio.addEventListener('loadedmetadata', playAudio);
+
+      return () => {
+        audio.removeEventListener('loadedmetadata', playAudio);
+      };
     }
   }, []);
 
   const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(console.error);
-      }
-      setIsPlaying(!isPlaying);
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play().catch(console.error);
     }
+    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -41,13 +54,9 @@ export const MusicToggle = () => {
           <VolumeX className="h-5 w-5" />
         )}
       </Button>
-      
-      <audio
-        ref={audioRef}
-        preload="auto"
-      >
-        <source src={musicUrl} type="audio/wav" />
-        {/* Fallback - you can add multiple sources here */}
+
+      <audio ref={audioRef} preload="auto">
+        <source src={musicUrl} type="audio/mp3" />
         Your browser does not support the audio element.
       </audio>
     </>
