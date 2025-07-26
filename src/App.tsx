@@ -21,8 +21,13 @@ const App = () => {
 
         <BrowserRouter>
           <Routes>
+            {/* 🚧 TEMPORARY: All routes show 404 while website is under construction */}
+            <Route path="*" element={<NotFound />} />
+            
+            {/* 💝 ORIGINAL ROUTES - Commented out temporarily, uncomment to restore website:
             <Route path="/" element={<Index />} />
             <Route path="*" element={<NotFound />} />
+            */}
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
