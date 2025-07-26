@@ -18,8 +18,8 @@ const AudioManager = () => {
          // Auto-play strategies
      const attemptAutoplay = async () => {
        try {
-         // Set start time
-         bgAudio.currentTime = 1.25;
+         // Set start time (1 minute 25 seconds)
+         bgAudio.currentTime = 85;
         
         // Try to play immediately
         await bgAudio.play();
@@ -38,7 +38,7 @@ const AudioManager = () => {
      const handleUserInteraction = async () => {
        if (bgAudio.paused) {
          try {
-           bgAudio.currentTime = 1.25;
+           bgAudio.currentTime = 85;
           await bgAudio.play();
           setShowPlayPrompt(false);
           console.log('🎵 Background music started after user interaction');
@@ -93,7 +93,7 @@ const AudioManager = () => {
       pause: () => bgAudio.pause(),
              toggle: () => {
          if (bgAudio.paused) {
-           bgAudio.currentTime = 1.25; // Reset to start position
+           bgAudio.currentTime = 85; // Reset to start position (1 min 25 sec)
           bgAudio.play().catch(console.error);
         } else {
           bgAudio.pause();
@@ -109,7 +109,7 @@ const AudioManager = () => {
      const bgAudio = bgAudioRef.current;
      if (bgAudio) {
        try {
-         bgAudio.currentTime = 1.25;
+         bgAudio.currentTime = 85;
         await bgAudio.play();
         setShowPlayPrompt(false);
       } catch (error) {
