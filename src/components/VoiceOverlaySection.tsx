@@ -18,13 +18,34 @@ export const VoiceOverlaySection = () => {
     const audioInstance = new Audio('/audio/my.mp3');
     setAudio(audioInstance);
 
+    // When voice starts playing
+    audioInstance.addEventListener('play', () => {
+      setIsPlaying(true);
+      // Dispatch event to pause background music
+      window.dispatchEvent(new CustomEvent('voicePlay'));
+    });
+
+    // When voice ends
     audioInstance.addEventListener('ended', () => {
       setIsPlaying(false);
+      // Dispatch event to resume background music
+      window.dispatchEvent(new CustomEvent('voiceEnd'));
+    });
+
+    // When voice is paused
+    audioInstance.addEventListener('pause', () => {
+      setIsPlaying(false);
+      // Only resume background music if audio actually ended (not just paused manually)
+      if (audioInstance.currentTime === 0 || audioInstance.ended) {
+        window.dispatchEvent(new CustomEvent('voiceEnd'));
+      }
     });
 
     return () => {
       audioInstance.pause();
+      audioInstance.removeEventListener('play', () => {});
       audioInstance.removeEventListener('ended', () => {});
+      audioInstance.removeEventListener('pause', () => {});
     };
   }, []);
 
@@ -37,8 +58,6 @@ export const VoiceOverlaySection = () => {
       audio.currentTime = 0;
       audio.play();
     }
-
-    setIsPlaying(!isPlaying);
   };
 
   return (
