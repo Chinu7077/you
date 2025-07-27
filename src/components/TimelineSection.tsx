@@ -8,19 +8,18 @@ const timelineItems = [
   {
     icon: MessageCircle,
     title: "Our First Conversation...",
-    description: "I still remember our very first conversation  it felt different, like something truly special.",
+    description: "I still remember our very first conversation it felt different, like something truly special.",
     emoji: "💬"
   },
   {
     icon: Sparkles,
     title: "When We Met...",
-    description: "I still remember how special our first meeting was  and how special that place was too The way you walked in shyly and blushed when you saw me...",
+    description: "I still remember how special our first meeting was and how special that place was too The way you walked in shyly and blushed when you saw me...",
     emoji: "✨"
   },
-  
   {
     icon: Coffee,
-    title: "That first breakfast… ",
+    title: "That first breakfast…",
     description: "That first breakfast… I still remember how gently you fed me. In that quiet moment, I felt what care truly means.",
     emoji: "☕"
   },
@@ -33,13 +32,13 @@ const timelineItems = [
   {
     icon: Heart,
     title: "When I Realized",
-    description: "The way you looked into my eyes and spoke without words…In that moment, I knew — I didn’t need anything else but you.",
+    description: "The way you looked into my eyes and spoke without words…In that moment, I knew — I didn't need anything else but you.",
     emoji: "💕"
   },
   {
     icon: Moon,
-    title: "What I Feel When You Smile",
-    description: "Every time I see your smile, it feels like I’ve found all the joy this world has to offer.",
+    title: "Forever Yours",
+    description: "Every night since then, I fall asleep thinking about our future together.",
     emoji: "🌙"
   }
 ];
@@ -49,73 +48,60 @@ export const TimelineSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 px-6 gradient-dreamy">
+    <section ref={ref} className="py-20 px-6 gradient-timeline">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-light text-foreground mb-4">
-            Our Beautiful 
-            <span className="text-primary font-medium"> Journey</span>
+          <h2 className="text-4xl md:text-5xl font-light text-gray-800 mb-6">
+            Our Beautiful Journey
           </h2>
-          <p className="text-xl text-muted-foreground">
-            Every moment that led us here...
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Every moment we've shared has led us to this beautiful chapter
           </p>
         </motion.div>
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-primary opacity-30"></div>
-          
-          {timelineItems.map((item, index) => {
-            const Icon = item.icon;
-            const isEven = index % 2 === 0;
-            
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className={`relative flex items-center mb-12 ${
-                  isEven ? 'md:flex-row-reverse' : ''
-                }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 top-1/2">
-                  <motion.div
-                    className="w-8 h-8 rounded-full gradient-romantic shadow-soft flex items-center justify-center"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <Icon className="h-4 w-4 text-primary-foreground" />
-                  </motion.div>
-                </div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-pink-200 via-purple-200 to-pink-200"></div>
 
-                {/* Content */}
-                <div className={`w-full md:w-5/12 ml-16 md:ml-0 ${
-                  isEven ? 'md:mr-16' : 'md:ml-16'
-                }`}>
-                  <Card className="p-6 shadow-romantic hover:shadow-dreamy transition-romantic">
-                    <div className="flex items-center mb-3">
-                      <span className="text-2xl mr-3">{item.emoji}</span>
-                      <h3 className="text-xl font-medium text-foreground">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {item.description}
-                    </p>
-                  </Card>
-                </div>
-              </motion.div>
-            );
-          })}
+          {timelineItems.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              transition={{ delay: index * 0.2, duration: 0.6 }}
+              className={`relative flex items-center mb-12 ${
+                index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+              }`}
+            >
+              {/* Timeline dot */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-pink-400 rounded-full border-4 border-white shadow-lg z-10">
+                <div className="w-full h-full bg-pink-400 rounded-full animate-pulse"></div>
+              </div>
+
+              {/* Content card */}
+              <div className={`w-5/12 ${index % 2 === 0 ? 'mr-auto pr-8' : 'ml-auto pl-8'}`}>
+                <Card className="p-6 bg-white/80 backdrop-blur-sm border-pink-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div className={`flex items-center mb-4 ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                    <div className="text-3xl mr-3">{item.emoji}</div>
+                    <item.icon className="h-6 w-6 text-pink-500" />
+                  </div>
+                  <h3 className={`text-xl font-semibold text-gray-800 mb-3 ${index % 2 === 0 ? 'text-left' : 'text-right'}`}>
+                    {item.title}
+                  </h3>
+                  <p className={`text-gray-600 leading-relaxed ${index % 2 === 0 ? 'text-left' : 'text-right'}`}>
+                    {item.description}
+                  </p>
+                </Card>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
   );
-};
+}; 
