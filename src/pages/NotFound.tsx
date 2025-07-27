@@ -3,6 +3,97 @@ import { Heart, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
+const AnimatedSmile = () => {
+  return (
+    <motion.div
+      className="relative"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+    >
+      {/* Main face container */}
+      <motion.div
+        className="w-48 h-48 bg-yellow-200 rounded-full border-4 border-yellow-400 shadow-2xl relative flex items-center justify-center"
+        animate={{
+          scale: [1, 1.02, 1],
+          rotate: [0, 1, -1, 0]
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        {/* Eyes */}
+        <div className="absolute top-16 left-12">
+          <motion.div
+            className="w-4 h-4 bg-gray-800 rounded-full"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.5, ease: "bounceOut" }}
+          />
+        </div>
+        <div className="absolute top-16 right-12">
+          <motion.div
+            className="w-4 h-4 bg-gray-800 rounded-full"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.5, ease: "bounceOut" }}
+          />
+        </div>
+
+        {/* Mouth - using a curved div */}
+        <motion.div
+          className="absolute bottom-16"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+        >
+          <div className="w-16 h-8 border-b-4 border-gray-800 rounded-b-full" />
+        </motion.div>
+
+        {/* Cheek blushes */}
+        <motion.div
+          className="absolute top-20 left-4 w-6 h-6 bg-pink-300 rounded-full opacity-60"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.6 }}
+          transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
+        />
+        <motion.div
+          className="absolute top-20 right-4 w-6 h-6 bg-pink-300 rounded-full opacity-60"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.6 }}
+          transition={{ delay: 1.2, duration: 0.6, ease: "easeOut" }}
+        />
+      </motion.div>
+
+      {/* Floating hearts around the smile */}
+      {[...Array(4)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-pink-400"
+          style={{
+            left: `${Math.cos((i * 90) * (Math.PI / 180)) * 140 + 96}px`,
+            top: `${Math.sin((i * 90) * (Math.PI / 180)) * 140 + 96}px`,
+          }}
+          animate={{
+            y: [0, -10, 0],
+            scale: [0.8, 1.2, 0.8],
+            opacity: [0.5, 1, 0.5]
+          }}
+          transition={{
+            duration: 2 + i * 0.5,
+            repeat: Infinity,
+            delay: 1.5 + i * 0.3
+          }}
+        >
+          <Heart className="h-6 w-6" />
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};
+
 const NotFound = () => {
   const [hasLetGo, setHasLetGo] = useState(false);
 
@@ -144,22 +235,9 @@ const NotFound = () => {
               ease: "easeOut",
               delay: 0.5
             }}
-            className="text-center"
+            className="text-center flex items-center justify-center min-h-screen"
           >
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, -5, 0]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="text-8xl md:text-9xl"
-            >
-              😊
-            </motion.div>
+            <AnimatedSmile />
           </motion.div>
         )}
       </AnimatePresence>
