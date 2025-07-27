@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
 import AudioManager from "@/components/AudioManager"; // ✅ Global Audio Handler
 
 const queryClient = new QueryClient();
@@ -21,13 +20,7 @@ const App = () => {
 
         <BrowserRouter>
           <Routes>
-            {/* 🚧 TEMPORARY: All routes show 404 while website is under construction */}
-            <Route path="*" element={<NotFound />} />
-            
-            {/* 💝 ORIGINAL ROUTES - Commented out temporarily, uncomment to restore website:
             <Route path="/" element={<Index />} />
-            <Route path="*" element={<NotFound />} />
-            */}
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
