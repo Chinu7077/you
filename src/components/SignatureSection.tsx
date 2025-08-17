@@ -144,7 +144,7 @@ export const SignatureSection = () => {
             transition={{ duration: 0.8, delay: 3 }}
             className="text-xs text-muted-foreground/70 italic"
           >
-            Made with 💖 • {new Date().getFullYear()}
+            Made with 💖
           </motion.div>
         </motion.div>
       </div>
